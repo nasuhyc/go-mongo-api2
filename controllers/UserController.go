@@ -44,6 +44,7 @@ func UserStore(c *fiber.Ctx) error {
 }
 
 func UserIndex(c *fiber.Ctx) error {
+
 	var user models.User
 	var users []models.User
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
@@ -69,6 +70,7 @@ func UserIndex(c *fiber.Ctx) error {
 }
 
 func UserGetId(c *fiber.Ctx) error {
+
 	userCollection := config.MI.DB.Collection("user")
 	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
 	var user models.User
@@ -98,6 +100,7 @@ func UserGetId(c *fiber.Ctx) error {
 }
 
 func UserUpdate(c *fiber.Ctx) error {
+
 	userCollection := config.MI.DB.Collection("user")
 	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
 	user := new(models.User)
@@ -139,6 +142,7 @@ func UserUpdate(c *fiber.Ctx) error {
 }
 
 func UserDestroy(c *fiber.Ctx) error {
+
 	userCollection := config.MI.DB.Collection("user")
 	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
 	getId, err := primitive.ObjectIDFromHex(c.Params("id"))
