@@ -4,6 +4,7 @@ import (
 	"context"
 	"go-mongo-api2/config"
 	"go-mongo-api2/models"
+
 	"log"
 	"time"
 
@@ -17,6 +18,7 @@ func UserStore(c *fiber.Ctx) error {
 	userCollection := config.MI.DB.Collection("user")
 	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
 	user := new(models.User)
+
 	user.Id = primitive.NewObjectID()
 
 	if err := c.BodyParser(user); err != nil {
@@ -27,6 +29,13 @@ func UserStore(c *fiber.Ctx) error {
 			"error:":  err,
 		})
 	}
+
+	errors := models.ValidateUserStruct(*user)
+	if errors != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(errors)
+
+	}
+
 	result, err := userCollection.InsertOne(ctx, user)
 	if err != nil {
 		return c.Status(500).JSON(fiber.Map{
