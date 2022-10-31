@@ -4,6 +4,7 @@ import (
 	"context"
 	"go-mongo-api2/config"
 	"go-mongo-api2/models"
+	"go-mongo-api2/validation"
 
 	"log"
 	"time"
@@ -30,7 +31,7 @@ func UserStore(c *fiber.Ctx) error {
 		})
 	}
 
-	errors := models.ValidateUserStruct(*user)
+	errors := validation.ValidateUserStruct(*user)
 	if errors != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(errors)
 
